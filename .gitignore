@@ -352,3 +352,5 @@ MigrationBackup/
 images/
 logoIcons/
 lib/
+json/
+jsonRedact/
