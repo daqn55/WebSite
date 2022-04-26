@@ -1,0 +1,258 @@
+﻿@{
+    ViewData["Title"] = "Книжарница Area.bg";
+}
+@section Scripts{
+    <script src="~/js/showDetails.js"></script>
+}
+
+@if (Model != null)
+{
+    @if (Model.PageIndex <= 1)
+    {
+        <partial name="Products/_SliderUpcoming" model="@Model.UpcomingProducts" />
+
+        @if (Model.ProductsFromTeam.Count > 0)
+        {
+            <div class="mt-2">
+                <div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+                    <h5 class="font-av text-uppercase">Това което подбрахме за вас</h5>
+                </div>
+                <!--Section: Content-->
+                <section class="mx-md-2 text-center">
+                    <!--Grid row-->
+                    <div class="row font-sp">
+                        <div class="col">
+                            <div class="row cart-center-sm">
+                                <!--Grid column-->
+                                @{int countTeam = 0; }
+                                @foreach (var p in Model.ProductsFromTeam)
+                                {
+                                    countTeam++;
+                                    @if (p.ProductToShow == "Yes")
+                                    {
+                                        <partial name="_cardPartial" model="@p" />
+                                        <!-- Card content -->
+                                        @if (countTeam == Model.CountProductsFromTeam)
+                                        {
+                                            int a = countTeam % 5;
+                                            if (a > 0)
+                                            {
+                                                var b = 5 - a;
+                                                for (int i = 0; i < b; i++)
+                                                {
+                                                    <div class="col-md mb-2"></div>
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            </div>
+                            <!-- Card -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        }
+    }
+
+
+    <div class="mt-2">
+        <div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+            <h5 class="font-av text-uppercase">Най-новите книги</h5>
+        </div>
+        <!--Section: Content-->
+        <section class="text-center mx-md-2">
+            <!--Grid row-->
+            <div class="row font-sp">
+                <div class="col">
+                    <div class="row cart-center-sm">
+                        <!--Grid column-->
+                        @{int count = 0; }
+                        @foreach (var p in Model)
+                        {
+                            count++;
+                            @if (p.ProductToShow == "Yes")
+                            {
+                                <partial name="_CardPartial" model="@p" />
+                            }
+                        }
+                        @if (Model.PageIndex == Model.TotalPages)
+                        {
+                            int a = Model.CountLastProducts % 5;
+                            if (a > 0)
+                            {
+                                var b = 5 - a;
+                                for (int i = 0; i < b; i++)
+                                {
+                                    <div class="col-md mb-2"></div>
+                                }
+                            }
+                        }
+                    </div>
+                    <!-- Card -->
+                </div>
+            </div>
+        </section>
+    </div>
+}
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+@if (Model.TotalCount > 0)
+{
+    <div id="pages-lg">
+        <div class="text-center">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="1"
+               class="btn btn-outline-purple @prevDisabled">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="@(Model.PageIndex - 1)"
+               class="btn btn-outline-purple @prevDisabled">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <div class="navbar d-inline-flex">
+                <ul class="list-inline">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex - 1)"
+                               class="btn btn-outline-purple">@(Model.PageIndex - 1)</a>
+                        </li>
+                    }
+                    <li class="list-inline-item">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-p="@Model.PageIndex"
+                           class="btn btn-outline-purple active">@Model.PageIndex</a>
+                    </li>
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex + 1)"
+                               class="btn btn-outline-purple">@(Model.PageIndex + 1)</a>
+                        </li>
+                    }
+                    @if (Model.HasSecondNextPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex + 2)"
+                               class="btn btn-outline-purple">@(Model.PageIndex + 2)</a>
+                        </li>
+                    }
+                    @if (Model.HasThirdNextPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex + 3)"
+                               class="btn btn-outline-purple">@(Model.PageIndex + 3)</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="@(Model.PageIndex + 1)"
+               class="btn btn-outline-purple @nextDisabled">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="@Model.TotalPages"
+               class="btn btn-outline-purple @nextDisabled">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        </div>
+    </div>
+    <div id="pages-sm">
+        <div class="text-center">
+            <div class="navbar d-inline-flex">
+                <ul class="list-inline">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex - 1)"
+                               class="btn btn-outline-purple">@(Model.PageIndex - 1)</a>
+                        </li>
+                    }
+                    <li class="list-inline-item">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-p="@Model.PageIndex"
+                           class="btn btn-outline-purple active">@Model.PageIndex</a>
+                    </li>
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex + 1)"
+                               class="btn btn-outline-purple">@(Model.PageIndex + 1)</a>
+                        </li>
+                    }
+                    @if (Model.HasSecondNextPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex + 2)"
+                               class="btn btn-outline-purple">@(Model.PageIndex + 2)</a>
+                        </li>
+                    }
+                    @if (Model.HasThirdNextPage)
+                    {
+                        <li class="list-inline-item">
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-p="@(Model.PageIndex + 3)"
+                               class="btn btn-outline-purple">@(Model.PageIndex + 3)</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="text-center">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="1"
+               class="btn btn-outline-purple @prevDisabled">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="@(Model.PageIndex - 1)"
+               class="btn btn-outline-purple @prevDisabled">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="@(Model.PageIndex + 1)"
+               class="btn btn-outline-purple @nextDisabled">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-p="@Model.TotalPages"
+               class="btn btn-outline-purple @nextDisabled">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        </div>
+    </div>
+}

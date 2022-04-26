@@ -1,0 +1,34 @@
+﻿@model AreaBg.Web.Areas.Admin.ViewModels.HelpAndTermsViewModel
+
+@{
+    ViewData["Title"] = "HelpAndTerms";
+}
+
+<div class="font-sp">
+    <h3>За нас</h3>
+    <form asp-area="Admin" asp-controller="Terms" asp-action="UpdateAboutUs" method="post" autocomplete="off" enctype="multipart/form-data">
+        <textarea style="width:100%; display: inline-block; white-space: pre-line; text-align:justify;" rows="8" name="aboutUs">@if(Model != null){@Model.AboutUs}</textarea>
+        <button type="submit" class="btn btn-primary">Запиши</button>
+    </form>
+</div>
+<div>
+    <h3 class="mt-4">Доставка</h3>
+    <form asp-area="Admin" asp-controller="Terms" asp-action="UpdateDelivery" method="post" autocomplete="off" enctype="multipart/form-data">
+        <textarea style="width:100%; display: inline-block; white-space: pre-line; text-align:justify;" rows="8" name="delivery">@if(Model != null){@Model.Delivery}</textarea>
+        <button type="submit" class="btn btn-primary">Запиши</button>
+    </form>
+</div>
+<div>
+    <h3 class="mt-4">Общи условия</h3>
+    <form asp-area="Admin" asp-controller="Terms" asp-action="UpdateTerms" method="post" autocomplete="off" enctype="multipart/form-data">
+        <textarea style="width:100%; display: inline-block; white-space: pre-line; text-align:justify;" rows="8" name="terms">@if(Model != null){@Model.Terms}</textarea>
+        <button type="submit" class="btn btn-primary">Запиши</button>
+    </form>
+</div>
+<div>
+    <h3 class="mt-4">Политика за поверителност</h3>
+    <form asp-area="Admin" asp-controller="Terms" asp-action="UpdateConfidentiality" method="post" autocomplete="off" enctype="multipart/form-data">
+        <textarea style="width:100%; display: inline-block; white-space: pre-line; text-align:justify;" rows="8" name="confidentiality">@if(Model != null){@Model.Confidentiality}</textarea>
+        <button type="submit" class="btn btn-primary">Запиши</button>
+    </form>
+</div>

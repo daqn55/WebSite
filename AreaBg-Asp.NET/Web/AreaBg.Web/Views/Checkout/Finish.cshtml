@@ -1,0 +1,46 @@
+﻿@model AreaBg.Web.ViewModels.Order.FinishViewModel
+
+@{
+    ViewData["Title"] = "Благодаря, че пазарувахте при нас";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="font-sp">
+    <h4 class="mb-3 font-av border-bottom" style="border-bottom-color: black !important;"></h4>
+    <div class="jumbotron text-center pt-4 pb-4">
+        <h3 class="font-av mb-4">@ViewData["Title"]</h3>
+        @if (Model != null)
+        {
+            @if (Model.OrderId != null)
+            {
+                @if (Model.OrderStatus == 2 || Model.OrderStatus == 1)
+                {
+                    <h5>Вашата поръчка с номер @Model.OrderId е платена успешно.</h5>
+                }
+                else
+                {
+                    <h5>Неуспешно плащане на поръчка с номер @Model.OrderId моля свържете с нас за повече информация.</h5>
+                }
+            }
+            else if (Model.OrderNum != null)
+            {
+                <h5>Вашата поръчка с номер @Model.OrderNum е регистрирана успешно.</h5>
+            }
+        }
+        else
+        {
+            <h5>Вашата поръчка е регистрирана успешно.</h5>
+        }
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <a asp-area="Identity" asp-page="/Account/Manage/MyOrders" class="btn btn-outline-purple mt-3">Към моите поръчки</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-purple mt-3">Начало</a>
+        }
+        else
+        {
+            <h5>На имейла си може да видите цялата информация за поръчката.</h5>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-purple mt-3">Начало</a>
+        }
+
+    </div>
+</div>

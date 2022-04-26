@@ -1,0 +1,60 @@
+﻿@model AreaBg.Web.Areas.Identity.ViewModels.OrderDetailsViewModel
+@{
+    ViewData["Title"] = "Детайли";
+}
+
+<div class="det-m-lg det-m-sm">
+    <h3>Преглед на поръчка &#x2116 @Model.Id</h3>
+    <h6>Статус на поръчката: <span class="prpColor">@Model.OrderStatus</span></h6>
+    <div class="mt-4" style="font-size:15px">
+        <b>Дата:</b> @Model.OrderDate.ToString("dd-MM-yyyy")<br />
+        <b>Име:</b> @Model.Name, <b>Град:</b> @Model.City <b>Email:</b> @Model.Email<br />
+        <b>Телефон:</b> @Model.PhoneNumber, <b>Адрес:</b> @Model.Address<br />
+        <b>Доставка до:</b> @Model.DeliveryPlace.ToString()<br />
+        <b>Забележка: @Model.Note</b>
+    </div>
+    <form method="post" asp-controller="Order" asp-action="OrderBookChangeQuantity">
+        <input hidden name="OrderId" value="@Model.Id" />
+        <table class="table table-bordered mt-2">
+            <thead>
+                <tr>
+                    <th style="width: 46%" scope="col">Заглавие</th>
+                    <th style="width: 20%" scope="col">Издател</th>
+                    <th style="width: 8%" scope="col" class="text-center">Цена</th>
+                    <th style="width: 8%" scope="col" class="text-center">Брой</th>
+                    <th style="width: 8%" scope="col" class="text-center">Сума</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{var n = 0; } 
+                @foreach (var b in Model.OrderBooks)
+                {
+                    <tr>
+                        <td scope="row" class="align-middle">@b.NameOfProduct</td>
+                        <td class="align-middle">@b.Publisher</td>
+                        <td class="align-middle text-center">@b.Price.ToString("f2")</td>
+                        <td class="align-middle text-center">
+                            <input  hidden name="Quantities[@n].BookId" value="@b.ProductId"/>
+                            <input class="quantityBookOrder" name="Quantities[@n].Quantity" type="number" value="@b.CountOfProduct" />
+                        </td>
+                        <td class="align-middle text-right">@b.QuantityPriceWithDisc.ToString("f2")</td>
+                    </tr>
+                    n++;
+                }
+                <tr>
+                    <th colspan="4" scope="row">Обща сума:</th>
+                    <td class="text-right">@Model.TotalPriceWithoutDelivery</td>
+                </tr>
+                <tr>
+                    <th colspan="4" scope="row">Цена за доставка:</th>
+                    <td class="text-right">@Model.DelieryPrice</td>
+                </tr>
+                <tr>
+                    <th colspan="4" scope="row">Крайна сума:</th>
+                    <td class="text-right font-weight-bold">@Model.TotalPrice.ToString("f2")</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-outline-danger">Запиши количество</button>
+    </form>
+</div>

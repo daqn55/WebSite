@@ -1,0 +1,185 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+@{
+    ViewData["Title"] = $"{Model.ProductDetails.Title} | Книга на {Model.ProductDetails.Author} | {Model.ProductDetails.Publisher} | Area.bg";
+    var desc = Model.ProductDetails.Description;
+    if (desc != null)
+    {
+        if (desc.Length > 200)
+        {
+            desc = Model.ProductDetails.Description.Substring(0, 200).Replace("\n", "").Replace("\r", "");
+        }
+    }
+    else
+    {
+        desc = "";
+    }
+    ViewBag.description = $"Цена: {Model.ProductDetails.PriceWithDiscount.ToString("f2")} > Бърза доставка > {desc}...";
+    //ViewBag.description = $"Цена: {Model.ProductDetails.PriceWithDiscount.ToString("f2")} > Книжарница Area.bg > Бърза доставка > {Model.ProductDetails.Title} от автор {Model.ProductDetails.Author} > Издателство {Model.ProductDetails.Publisher} > {desc}...";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Section: Content-->
+<section class="text-center">
+    <div class="row">
+        <div class="col-md-3 pr-0 padding-details-img">
+            @*@if (Model.ProductDetails.ProductToShow == 1)
+            {
+                <span class="out-of-stock-det out-of-stock-pos-det"></span>
+            }*@
+            @if (!String.IsNullOrEmpty(Model.ProductDetails.ImageName))
+            {
+                <img src="~/images/@Model.ProductDetails.ImageName" class="food2 foot-sm"
+                     alt="" id="product-image">
+            }
+            else
+            {
+                <img src="~/images/NoImage.png" class="food2 foot-sm"
+                     alt="" id="product-image">
+            }
+            <br />
+            <div class="pt-4 font-sp atr-details">
+                <ul class="list-group">
+                    <li class="list-group-item border-0 py-0 px-0">
+                        <strong>Обем:</strong>
+                        <span>@Model.ProductDetails.Pages стр.</span>
+                    </li>
+                    <li class="list-group-item border-0 py-0 px-0 mt-1">
+                        <strong>Формат в мм:</strong>
+                        <span>@Model.ProductDetails.Format</span>
+                    </li>
+                    <li class="list-group-item border-0 py-0 px-0 mt-1">
+                        <strong>Дата на включване:</strong>
+                        <span>@Model.ProductDetails.ReleaseDate</span>
+                    </li>
+                    <li class="list-group-item border-0 py-0 px-0 mt-1">
+                        <strong>ISBN:</strong>
+                        <span>@Model.ProductDetails.ISBN</span>
+                    </li>
+                    <li class="list-group-item border-0 py-0 px-0 mt-1">
+                        <strong>Категория:</strong>
+                        <a class="text-purple" asp-controller="Search" asp-action="By" asp-route-searchBy="subcat" asp-route-id="@Model.ProductDetails.SubcategoryId" asp-route-keyword="@Model.ProductDetails.SubcategoryTitleLatin">@Model.ProductDetails.SubcategoryTitle</a>
+                    </li>
+                    <li class="list-group-item border-0 py-0 px-0 mt-1">
+                        <strong>Издател:</strong>
+                        <a class="text-purple" id="product-publisher" asp-controller="Search" asp-action="For" asp-route-searchBy="publisher" asp-route-keyword="@Model.ProductDetails.PublisherLatin">@Model.ProductDetails.Publisher</a>
+                    </li>
+                    <li class="list-group-item border-0 py-0 px-0 mt-1">
+                        <div class="d-inline-flex mb-1">
+                            @if (Model.ProductDetails.Cover == "SoftCover")
+                            {
+                                <strong>Меки корици</strong>
+                            }
+                            else
+                            {
+                                <strong>Твърди корици</strong>
+                            }
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md det-m-sm det-m-lg">
+            <div class="row">
+                <div class="col-md-8 text-center text-md-left font-sp">
+                    <h1 class="h2-responsive font-weight-bold mb-0 title-size">
+                        <span id="product-title" class="font-spCom prpColor">@Model.ProductDetails.Title</span>
+                    </h1>
+
+                    <div class="mb-3" style="font-size: 15px">
+                        <h6><a class="text-purple" id="product-author" asp-controller="Search" asp-action="For" asp-route-searchBy="author" asp-route-keyword="@Model.ProductDetails.AuthorLatin">@Model.ProductDetails.Author</a></h6>
+                    </div>
+                    <!--Accordion wrapper-->
+                    <div style="font-size: 15px">
+                        <div class="" style="margin-top: 2px;">
+                            @for (int i = 0; i < Model.PreviewReviews.StarsRating; i++)
+                            {
+                                <i class="starIcFull"></i>
+                            }
+                            @for (int i = 0; i < (5 - Model.PreviewReviews.StarsRating); i++)
+                            {
+                                <i class="starIcEmpty"></i>
+                            }
+                        </div>
+                        <div class="mb-1">
+                            <a class="text-purple" href="#book-reviews" id="check-reviews">Виж коментарите</a>
+                            <span> | </span>
+                            <a href="" class="text-purple" data-toggle="modal" data-target="#reviewModal">Напиши коментар</a>
+                        </div>
+                    </div>
+                    <hr class="mt-0 mb-3" style="border-color: black;" />
+                    <div class="d-inline" style="font-size: 16px">
+                        <strong>
+                            <span class="prpColor">Анотация</span>
+                        </strong>
+                    </div>
+                    <div id="description" style="font-size: 14px">
+                        <div style="display: inline-block; white-space: pre-line; text-align:justify">
+                            @Model.ProductDetails.Description
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 det-m-sm det-m-lg">
+                    <div class="jumbotron p-3 dtOrd font-spCom">
+                        <div class="container padding-details-buy">
+                            @if (Model.IsFavorite)
+                            {
+                                <a asp-controller="Favorite" asp-action="DeleteFavorite" asp-route-id="@Model.ProductDetails.ProductId" class="ff font-sp favIcOrTrue text-purple" style="font-size: 14px">Изтрий от любими</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Favorite" asp-action="AddToFavorite" asp-route-id="@Model.ProductDetails.ProductId" class="ff font-sp favIcOr text-purple" style="font-size: 14px">Добави в любими</a>
+                            }
+                            <hr class="my-2" />
+                            @if (@Model.ProductDetails.Discount > 0)
+                            {
+                                <p class="textFontPrice text-danger mb-2"><small class="text-dark font-sp"><s>@Model.ProductDetails.Price</s></small><span id="product-price"> @Model.ProductDetails.PriceWithDiscount.ToString("f2")<small>лв.</small></span></p>
+                            }
+                            else
+                            {
+                                <p class="textFontPrice text-danger" id="product-price">@Model.ProductDetails.Price лв.</p>
+                            }
+                            @if (Model.ProductDetails.ProductToShow == 0)
+                            {
+                                if (Model.ProductDetails.Date > DateTime.Today.Date)
+                                {
+                                    <span class="prpColor font-sp font-weight-bold">Книгата ще излезе на<br />@(Model.ProductDetails.ReleaseDate)г.</span>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline-purple font-sp" data-toggle="modal" data-target="#myModal" data-id="@Model.ProductDetails.ProductId" name="btn-order">ПОРЪЧАЙ</button>
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-danger font-sp font-weight-bold font-italic">Книгата не е налична.</span>
+                            }
+                            @if (Model.ProductDetails.Discount > 0)
+                            {
+                                <br />
+                                <div class="pt-2 font-weight-bold" style="font-size: 19px">- @Model.ProductDetails.Discount%</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.Accordion wrapper-->
+        </div>
+    </div>
+</section>
+<!--Section: Content-->
+
+<partial name="~/Views/Product/_ReviewsProductPartial.cshtml" />
+<partial name="~/Views/Product/_SliderProductsPartial.cshtml" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
+    <script>
+        grecaptcha.ready(function() {
+            window.grecaptcha.execute('@Configuration["googleReCaptcha:SiteKey"]', { action: 'home' }).then(function (token) {
+                $("#captchaInput").val(token);
+            });
+        });
+    </script>
+}

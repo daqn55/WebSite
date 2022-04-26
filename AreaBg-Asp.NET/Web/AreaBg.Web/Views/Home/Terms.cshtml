@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Общи условия";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+    <h3 class="font-av text-uppercase">Общи условия</h3>
+</div>
+
+@if (Model != null)
+{
+    <p class="font-sp" style="display: inline-block; white-space: pre-line; text-align:justify">
+        @Model.data
+    </p>
+}

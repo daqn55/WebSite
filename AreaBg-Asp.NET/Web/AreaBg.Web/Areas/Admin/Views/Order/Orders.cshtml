@@ -1,0 +1,130 @@
+﻿@model List<AreaBg.Web.Areas.Admin.ViewModels.Orders.OrdersViewModel>
+
+@{
+    ViewData["Title"] = "Поръчки по дати";
+}
+
+<h5>Поръчки по дати</h5>
+
+<form method="get" autocomplete="off" enctype="multipart/form-data">
+    <div class="form-group form-inline row">
+        <label for="ProductDate" class="col-1 col-form-label px-0">От:</label>
+        <div class="col-3 pl-0">
+            @if (Model != null)
+            {
+                if (Model.Count > 0)
+                {
+                    <input type="date" class="form-control" name="fromDate" placeholder="Дата..." value="@Model.First().StartDate">
+                }
+                else
+                {
+                    <input type="date" class="form-control" name="fromDate" placeholder="Дата..." value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                }
+            }
+            else
+            {
+                <input type="date" class="form-control float-left" name="fromDate" placeholder="Дата..." value="@DateTime.Today.ToString("yyyy-MM-dd")">
+            }
+        </div>
+        <label for="ProductDate1" class="col-1 col-form-label px-0">До:</label>
+        <div class="col-5 pl-0">
+            @if (Model != null)
+            {
+                if (Model.Count > 0)
+                {
+                    <input type="date" class="form-control" name="toDate" placeholder="Дата..." value="@Model.First().EndDate">
+                }
+                else
+                {
+                    <input type="date" class="form-control" name="toDate" placeholder="Дата..." value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                }
+            }
+            else
+            {
+                <input id="ProductDate1" type="date" class="form-control float-left" name="toDate" placeholder="Дата..." value="@DateTime.Today.ToString("yyyy-MM-dd")">
+            }
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-primary">Преглед</button>
+</form>
+<div class="table-responsive-md mt-4">
+    <button class="btn btn-outline-dark mr-2" id="checkAll">Селектирай всички</button><button class="btn btn-outline-dark" id="uncheckAll">Деселектирай всички</button>
+    <form asp-area="Admin" asp-controller="Order" asp-action="PrintOrders">
+        <table id="tableSearch" class="table table-bordered tb-fixed">
+            <thead>
+                <tr>
+                    <th width="5%" scope="col"></th>
+                    <th width="15%" scope="col">Дата</th>
+                    <th width="17%" scope="col">Град</th>
+                    <th width="25%" scope="col">Име</th>
+                    <th width="23%" scope="col">Забележка</th>
+                    <th width="18%" scope="col"></th>
+                </tr>
+            </thead>
+            @if (Model != null)
+            {
+
+                <tbody>
+                    @foreach (var o in Model)
+                    {
+                        @if (o.Registred)
+                        {
+                            <tr>
+                                <th scope="row"><input type="checkbox" name="orderCheck" value="@o.Id"></th>
+                                <td>@o.Date</td>
+                                <td class="td-break-word">@o.City</td>
+                                <td class="td-break-word"><a asp-area="Admin" asp-controller="Order" asp-action="OrderDetails" asp-route-id="@o.Id">@o.Name</a></td>
+                                <td class="td-break-word">@o.Note</td>
+                                @if (o.OrderStatus == 1)
+                                {
+                                    <td>Изпратена</td>
+                                }
+                                else if (o.OrderStatus == 3)
+                                {
+                                    <td>Отказана</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a class="btn btn-outline-danger btn-sm" name="change-status" id="@o.Id" href="">Изпълнена</a>
+                                        <a class="mt-1" name="refuse-status" id="@o.Id" href="">Отказана</a>
+                                        <a name="refuse-status-with-mail" id="@o.Id" href="">Отказана + Н.Т</a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <th class="bg-warning" scope="row"><input type="checkbox" name="orderCheck" value="@o.Id"></th>
+                                <td class="bg-warning">@o.Date</td>
+                                <td class="td-break-word bg-warning">@o.City</td>
+                                <td class="td-break-word bg-warning"><a asp-area="Admin" asp-controller="Order" asp-action="OrderDetails" asp-route-id="@o.Id">@o.Name</a></td>
+                                <td class="td-break-word bg-warning">@o.Note</td>
+                                @if (o.OrderStatus == 1)
+                                {
+                                    <td>Изпратена</td>
+                                }
+                                else if (o.OrderStatus == 3)
+                                {
+                                    <td>Отказана</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a class="btn btn-outline-danger btn-sm" name="change-status" id="@o.Id" href="">Изпълнена</a>
+                                        <a class="mt-1" name="refuse-status" id="@o.Id" href="">Отказана</a>
+                                        <a name="refuse-status-with-mail" id="@o.Id" href="">Отказана + Н.Т</a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            }
+
+        </table>
+        <button type="submit" class="btn btn-outline-primary">Разпечатка на избраните заявки</button>
+    </form>
+</div>

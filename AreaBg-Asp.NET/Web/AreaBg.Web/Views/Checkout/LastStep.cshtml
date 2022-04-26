@@ -1,0 +1,166 @@
+﻿@model AreaBg.Web.ViewModels.Order.OrderFinishViewModel
+@{
+    ViewData["Title"] = "Завършване на поръчката";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="font-sp">
+    <div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+        <h5 class="font-av text-uppercase">Начин на доставка</h5>
+    </div>
+    <div>
+        <form method="post" asp-controller="Checkout" asp-action="LastStep">
+            <div class="row jumbotron ml-0 mr-0 mt-4 mb-4 pt-5 pb-5">
+                <div class="col-md">
+                    <div class="form-group form-check">
+                        <input asp-for="ChooseAddress" id="toSpeedy" type="radio" class="form-check-input" name="ChooseAddress" value="Speedy">
+                        <label class="form-check-label" for="toSpeedy">До адрес със Спиди: <span class="text-danger">@AreaBg.Web.GlobalsVariables.Globals.Speedy</span> лв.</label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input asp-for="ChooseAddress" id="toOfficeSpeedy" type="radio" class="form-check-input" name="ChooseAddress" value="OfficeSpeedy">
+                        <label class="form-check-label" for="toOfficeSpeedy">
+                            Офис на Спиди: 
+                                @if (Model.DeliveryPrice > 0)
+                                {
+                                    <span class="text-danger">@Model.DeliveryPrice.ToString("f2")</span><div style="display:inline"> лв.</div>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">безплатна доставка</span>
+                                }
+                            
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input asp-for="ChooseAddress" id="toEkont" type="radio" class="form-check-input" name="ChooseAddress" value="Ekont">
+                        <label class="form-check-label" for="toEkont">До адрес с Еконт: <span class="text-danger">според тарифите им</span></label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input asp-for="ChooseAddress" id="toOfficeEkont" type="radio" class="form-check-input" name="ChooseAddress" value="OfficeEkont">
+                        <label class="form-check-label" for="toOfficeEkont">Офис на Еконт: <span class="text-danger">според тарифите им</span></label>
+                    </div>
+                    <span asp-validation-for="ChooseAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group ml-md-4 mr-4 pt-0 col-md-6">
+                    <h4 class="">Избери адрес за доставка</h4>
+                    <div id="myAddress" hidden>
+                        <select class="form-control mt-3" id="myAddressSel" name="AddressId" asp-for="AddressId">
+                            <option disabled>Моля изберете адрес за доставка</option>
+                        </select>
+                        <span asp-validation-for="AddressId" class="text-danger"></span>
+                    </div>
+
+                    <div id="form-new-address" class="mt-4" hidden>
+                        <div class="form-group mb-0">
+                            <label class="my-auto ml-1">Име: </label>
+                            <input asp-for="Name" class="form-control" name="Name" disabled />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger ml-1"></span>
+                        <div class="form-group mb-0 mt-3">
+                            <label class="my-auto ml-1">Телефон: </label>
+                            <input asp-for="PhoneNumber" class="form-control" name="PhoneNumber" disabled />
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="text-danger ml-1"></span>
+                        <div class="form-group mb-0 mt-3">
+                            <label class="ml-1">Град: </label>
+                            <input asp-for="City" class="form-control" name="City" disabled />
+                        </div>
+                        <span asp-validation-for="City" class="text-danger ml-1"></span>
+                        <div class="form-group mb-0 mt-3">
+                            <label class="ml-1">Адрес: </label>
+                            <input asp-for="DeliveryAddress" class="form-control" name="DeliveryAddress" disabled />
+                        </div>
+                        <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+                    <h5 class="font-av text-uppercase">Начин на плащане</h5>
+                </div>
+                <div class="jumbotron mt-4 pt-5 pb-5">
+                    <div class="form-group form-check">
+                        <input id="viaCash" type="radio" class="form-check-input" name="Paying" value="viaCash" checked>
+                        <label class="form-check-label" for="viaCash">Плащане с наложен платеж</label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input id="viaCard" type="radio" class="form-check-input" name="Paying" value="viaCard" disabled>
+                        <label class="form-check-label" for="viaCard">Плащене с карта</label>
+                    </div>
+                    <span class="text-danger">На този етап не приемаме плащания с карта</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 form-group">
+                    <h6>Забележка към поръчката</h6>
+                    <textarea class="form-control" style="width:100%; height:140px;" name="OrderNote"></textarea>
+                </div>
+                <div class="col-md">
+                    <h6 class="font-weight-bold">Дължима сума</h6>
+                    <table class="table table-borderless border-top mr-1">
+                        <tbody>
+                            <tr>
+                                <th class="text-secondary" scope="row">Сума</th>
+                                @if (Model != null)
+                                {
+                                    <td class="font-weight-bold"><input name="Price" value="@Model.Price" style="display:none" /><span id="total-price">@Model.Price</span> лв.</td>
+                                }
+                                else
+                                {
+                                    <td class="font-weight-bold"><span id="total-price">0.00</span> лв.</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th class="text-secondary" scope="row">Доставка</th>
+                                <td class="font-weight-bold"><span id="delivery-price">0.00</span> лв.</td>
+                            </tr>
+                            <tr class="table-secondary">
+                                <th scope="row">ОБЩО</th>
+                                @if (Model != null)
+                                {
+                                    <td class="font-weight-bold" style="width:30%"><input name="Price" value="@Model.Price" style="display:none" /><span id="total-with-delivery">@Model.Price</span> лв.</td>
+                                }
+                                else
+                                {
+                                    <td class="font-weight-bold" style="width:30%"><span id="total-with-delivery">0.00</span> лв.</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        @Html.CheckBoxFor(x => x.AcceptTerms)
+                        Запознах се с <a id="terms-accept" class="text-purple" href="/terms">@Html.LabelFor(x => x.AcceptTerms)</a>
+                        <br />
+                        <span asp-validation-for="AcceptTerms" class="text-danger"></span>
+                    </div>
+                    <button class="btn btn-outline-purple float-right mb-2 mr-1">Завърши поръчката</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function bla() {
+        let a = '@Model.AddressId'
+        let result = '';
+        if (a === 'newAddress') {
+            result = 'newAddress'
+        }
+        return result
+    }
+    // extend range validator method to treat checkboxes differently
+    var defaultRangeValidator = $.validator.methods.range;
+    $.validator.methods.range = function (value, element, param) {
+        if (element.type === 'checkbox') {
+            // if it's a checkbox return true if it is checked
+            return element.checked;
+        } else {
+            // otherwise run the default validation function
+            return defaultRangeValidator.call(this, value, element, param);
+        }
+    }
+</script>
+}

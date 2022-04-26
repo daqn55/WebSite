@@ -1,0 +1,72 @@
+﻿@page
+@model AreaBg.Web.Areas.Identity.Pages.Account.Manage.MyOrdersModel
+@{
+    ViewData["Title"] = "Моите поръчки";
+    ViewData["ActivePage"] = ManageNavPages.MyOrders;
+}
+
+<h4 class="font-sp det-m-lg det-m-sm">@ViewData["Title"]</h4>
+
+@if (Model.MyOrders.Count <= 0)
+{
+    <div class="jumbotron font-sp">
+        <h5 class="text-center">Нямаш поръчки за момента</h5>
+    </div>
+}
+else
+{
+    <table class="table font-sp">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="font-weight-light fav-sm fav-lg">Номер</th>
+                <th scope="col" class="font-weight-light">Дата</th>
+                <th scope="col" class="font-weight-light fav-sm fav-lg">Статус</th>
+                <th scope="col" class="font-weight-light">Сума</th>
+                <th scope="col" class="font-weight-light"></th>
+            </tr>
+        </thead>
+        <tbody style="LINE-HEIGHT:50px;">
+            @foreach (var i in Model.MyOrders)
+            {
+                <tr>
+                    <th scope="row" class="fav-sm fav-lg">@i.IdClient</th>
+                    <td class="font-weight-bold">@i.Date</td>
+                    <td class="prpColor fav-sm fav-lg">@i.OrderStatus</td>
+                    <td class="font-weight-bold py-auto">@i.TotalPrice лв.</td>
+                    <td class="text-center"><a asp-page="./OrderDetails" asp-route-id="@i.Id" class="btn btn-outline-purple" style="font-size: 13px">ДЕТАЙЛИ</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    var prevDisabled = !Model.MyOrders.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.MyOrders.HasNextPage ? "disabled" : "";
+
+    <div class="text-center">
+        <a asp-page="./MyOrders"
+           asp-route-sortOrder="@Model.CurrentSort"
+           asp-route-pageIndex="@(Model.MyOrders.PageIndex - 1)"
+           class="btn btn-outline-purple @prevDisabled">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <div class="navbar d-inline-flex">
+            <ul class="list-inline">
+                @for (var i = 1; i <= Model.MyOrders.TotalPages; i++)
+                {
+                    <li class="list-inline-item">
+                        <a asp-page="./MyOrders"
+                           asp-route-sortOrder="@Model.CurrentSort"
+                           asp-route-pageIndex="@i"
+                           class="btn btn-outline-purple @(i == Model.MyOrders.PageIndex ? "active" : "")">@i</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <a asp-page="./MyOrders"
+           asp-route-sortOrder="@Model.CurrentSort"
+           asp-route-pageIndex="@(Model.MyOrders.PageIndex + 1)"
+           class="btn btn-outline-purple @nextDisabled">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+}

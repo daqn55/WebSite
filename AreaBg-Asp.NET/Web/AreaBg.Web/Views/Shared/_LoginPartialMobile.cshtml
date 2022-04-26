@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using AreaBg.Data.Models
+@inject SignInManager<MyIdentityUser> SignInManager
+@inject UserManager<MyIdentityUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        <a asp-controller="Checkout" asp-action="Cart" class="cartIc">
+            <span id="cartNum" name="cartNum" class="n0c"></span>
+        </a>
+    </div>
+    <div class="ml-2 mr-2">
+        <a asp-area="Identity" asp-page="/Account/Manage/FavoriteProducts" class="favIc-up"></a>
+    </div>
+    
+}
+else
+{
+    <div>
+        <a asp-controller="Checkout" asp-action="Cart" class="cartIc">
+            <span id="cartNum" name="cartNum" class="n0c"></span>
+        </a>
+    </div>
+
+}
+
+

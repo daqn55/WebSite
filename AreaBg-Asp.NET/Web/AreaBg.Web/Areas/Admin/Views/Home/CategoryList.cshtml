@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "CategoryList";
+}
+
+<div class="showElement" id="showAllCategoriesDiv" name="menuItem">
+    <form class="form-group" asp-controller="Home" asp-action="UpdateCategoryOrder" method="post">
+        <ul id="categoryList" class="list-group col-md-7">
+            @foreach (var c in Model.Categories)
+            {
+                <li class="list-group-item p-md-2">
+                    [@c.CategoryId] @c.Title
+                    <input class="float-md-right orderForm" name="cat-@c.CategoryId" type="number" value="@c.OrderNumber"/>
+                    <ul class="list-group">
+                        @foreach (var s in c.SubCategoriesViewModel)
+                        {
+                            <li class="list-group-item list-group-item-secondary p-md-2 ml-md-3 mr-md-2 mt-1">
+                                [@s.SubCategoryId] @s.Title
+                                <input class="float-md-right orderForm" name="subCat-@s.SubCategoryId" type="number" value="@s.OrderNumber"/>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+        <div class="row flex-row-reverse">
+            <button class="btn btn-primary mt-3 mr-3" type="submit">Запиши</button>
+        </div>
+    </form>
+</div>

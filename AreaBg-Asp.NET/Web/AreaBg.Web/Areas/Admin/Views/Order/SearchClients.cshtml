@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Търсене на клиенти";
+}
+
+<form asp-controller="Order" asp-action="SearchClients" method="get" class="form-inline mb-5">
+    <input id="productToSearch" class="form-control mr-sm-2 col-md-5" type="search" placeholder="Търсене..." aria-label="search" name="clientToSearch">
+    <select id="searchOption" class="form-control mr-sm-2" name="searchOption">
+        <option value="byId">ID</option>
+        <option value="byName">Име</option>
+        <option value="byAddress">Адрес</option>
+        <option value="byEmail">Имейл</option>
+        <option value="byCity">Град</option>
+        <option value="byPhone">Телефон</option>
+    </select>
+    <button id="searchBookBtn" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Търси</button>
+</form>
+<div class="table-responsive-md mt-4">
+    <form asp-area="Admin" asp-controller="Order" asp-action="PrintOrders">
+        <table id="tableSearch" class="table table-bordered tb-fixed">
+            <thead>
+                <tr>
+                    <th width="5%" scope="col"></th>
+                    <th width="15%" scope="col">Дата</th>
+                    <th width="17%" scope="col">Град</th>
+                    <th width="25%" scope="col">Име</th>
+                    <th width="25%" scope="col">Забележка</th>
+                    <th width="16%" scope="col"></th>
+                </tr>
+            </thead>
+            @if (Model != null)
+            {
+
+                <tbody>
+                    @foreach (var o in Model)
+                    {
+                        <tr>
+                            <th scope="row"><input type="checkbox" name="orderCheck" value="@o.Id"></th>
+                            <td>@o.Date</td>
+                            <td class="td-break-word">@o.City</td>
+                            <td class="td-break-word"><a asp-area="Admin" asp-controller="Order" asp-action="OrderDetails" asp-route-id="@o.Id">@o.Name</a><br />@o.Email</td>
+                            <td class="td-break-word">@o.Note</td>
+                            @if (o.OrderStatus == 1)
+                            {
+                                <td>Изпратена</td>
+                            }
+                            else
+                            {
+                                <td><a class="btn btn-outline-danger btn-sm" name="change-status" id="@o.Id" href="">Изпълнена</a></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+        <button type="submit" class="btn btn-outline-primary">Разпечатка на избраните заявки</button>
+    </form>
+</div>

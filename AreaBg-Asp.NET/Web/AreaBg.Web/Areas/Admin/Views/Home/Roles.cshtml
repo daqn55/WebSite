@@ -1,0 +1,38 @@
+﻿@model List<AreaBg.Web.Areas.Admin.ViewModels.User.UserViewModel>
+
+@{
+    ViewData["Title"] = "Роли";
+}
+
+<form asp-controller="Home" asp-action="Roles" method="get" class="form-inline mb-5">
+    <input id="productToSearch" class="form-control mr-sm-2 col-md-5" type="search" placeholder="Търсене..." aria-label="search" name="clientToSearch">
+    <select id="searchOption" class="form-control mr-sm-2" name="searchOption">
+        <option value="byEmail">Имейл</option>
+    </select>
+    <button id="searchBookBtn" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Търси</button>
+</form>
+<div class="table-responsive-md mt-4">
+        <table id="tableSearch" class="table table-bordered tb-fixed">
+            <thead>
+                <tr>
+                    <th width="25%" scope="col">Име</th>
+                    <th width="25%" scope="col">Имейл</th>
+                    <th width="50%" scope="col"></th>
+                </tr>
+            </thead>
+            @if (Model != null)
+            {
+
+                <tbody>
+                    @foreach (var x in Model)
+                    {
+                        <tr>
+                            <td>@x.Name</td>
+                            <td class="td-break-word">@x.Email</td>
+                            <td class="td-break-word"><a asp-area="Admin" asp-controller="Home" asp-action="CreateAdmin" asp-route-id="@x.Id">роля админ</a></td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+</div>

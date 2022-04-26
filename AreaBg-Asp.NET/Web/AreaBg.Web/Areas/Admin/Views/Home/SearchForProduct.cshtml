@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "EditProduct";
+}
+
+<div>
+    <form asp-controller="Home" asp-action="SearchProduct" method="get" class="form-inline mb-5">
+        <input id="productToSearch" class="form-control mr-sm-2 col-md-5" type="search" placeholder="Търсене..." aria-label="search" name="productToSearch">
+        <select id="searchOption" class="form-control mr-sm-2" name="searchOption">
+            <option value="byName">По заглавие</option>
+            <option value="byAuthor">По автор</option>
+            <option value="byPublisher">По издател</option>
+            <option value="byId">По номер</option>
+        </select>
+        <button id="searchBookBtn" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Търси</button>
+    </form>
+    <div class="table-responsive-md">
+        <table id="tableSearch" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="w-16.66" scope="col">Номер</th>
+                    <th class="w-50" scope="col">Заглавие</th>
+                    <th class="w-25" scope="col">Подкатегория</th>
+                    <th class="w-25" scope="col">Издател</th>
+                    <th class="w-16.66" scope="col">Действие</th>
+                </tr>
+            </thead>
+            @if (Model != null)
+            {
+                @foreach (var book in Model.PartBooks)
+                {
+                    <tbody>
+                        @if (book.ProductToShow == 1)
+                        {
+                            <tr>
+                                <th class="bg-danger" scope="row">@book.BookId</th>
+                                <td class="bg-danger">@book.Title</td>
+                                <td class="bg-danger">@book.SubCategory</td>
+                                <td class="bg-danger">@book.Publisher</td>
+                                <td><a class="btn btn-outline-danger btn-sm" asp-controller="Home" asp-action="EditProduct" asp-route-id="@book.BookId">Edit</a></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <th scope="row">@book.BookId</th>
+                                <td>@book.Title</td>
+                                <td>@book.SubCategory</td>
+                                <td>@book.Publisher</td>
+                                <td><a class="btn btn-outline-danger btn-sm" asp-controller="Home" asp-action="EditProduct" asp-route-id="@book.BookId">Edit</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                }
+            }
+        </table>
+    </div>
+</div>
+

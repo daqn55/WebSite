@@ -1,0 +1,32 @@
+﻿@model List<AreaBg.Web.Areas.Admin.ViewModels.Reviews.ReviewViewModel>
+
+@{
+    ViewData["Title"] = "Коментари на книгите";
+}
+
+<table class="table table-striped tb-fixed mt-2">
+    <thead>
+        <tr>
+            <th scope="col" width="13%">Дата</th>
+            <th scope="col" width="20%">Книга / Име</th>
+            <th scope="col" width="20%">Относно</th>
+            <th scope="col" width="13%"></th>
+            <th scope="col" width="10%"></th>
+        </tr>
+    </thead>
+    @foreach (var m in Model)
+    {
+        <tbody id="@m.id">
+            <tr>
+                <th scope="row">@m.Date</th>
+                <td>@m.Title<br />@m.Name</td>
+                <td>@m.Subject</td>
+                <td><button class="btn btn-outline-success" id="@m.id" name="approve-review">Одобри</button></td>
+                <td><button class="btn btn-outline-danger" id="@m.id" name="delete-review">Изтрии</button></td>
+            </tr>
+            <tr>
+                <td class="td-break-word" colspan="5" scope="row">@m.Body</td>
+            </tr>
+        </tbody>
+    }
+</table>

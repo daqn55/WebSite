@@ -1,0 +1,219 @@
+﻿<div id="book-reviews" class="mb-2 mt-4 border-bottom" style="border-bottom-color: black !important;">
+    <h5 class="font-av text-uppercase">Коментари</h5>
+</div>
+<div class="row mt-4">
+    <div class="col-md-3 col-sm-3 my-auto">
+        <div class="text-center">
+            @if (@Model.PreviewReviews.Rating == "NaN")
+            {
+                <div><span class="font-spCom ratingNum">0 / 5</span></div>
+            }
+            else
+            {
+                <div><span class="font-spCom ratingNum">@Model.PreviewReviews.Rating / 5</span></div>
+            }
+            @for (int i = 0; i < Model.PreviewReviews.StarsRating; i++)
+            {
+                <i class="starIcFull"></i>
+            }
+            @for (int i = 0; i < (5 - Model.PreviewReviews.StarsRating); i++)
+            {
+                <i class="starIcEmpty"></i>
+            }
+            <div class="font-sp mt-1" style="font-size: 12px;"><a asp-action="Details" asp-fragment="book-reviews" class="text-purple">@Model.PreviewReviews.TotalReviews коментара</a></div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 font-sp pl-0">
+        @*/////*@
+        <div class="row">
+            <div class="col-3 pr-0 my-auto text-right">
+                <a class="text-purple" asp-action="Details" asp-route-star="5" asp-fragment="book-reviews">5 <i class="starIcFull"></i></a>
+            </div>
+            <div class="col-7 pl-1 pr-1 my-auto">
+                <div class="progress">
+                    <div class="progress-bar bg-purple" role="progressbar" style="width: @Model.PreviewReviews.FivePerc%" aria-valuenow="@Model.PreviewReviews.FivePerc" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-2 pl-1 my-auto">
+                <a class="text-purple" asp-action="Details" asp-route-star="5" asp-fragment="book-reviews">(@Model.PreviewReviews.FiveStars)</a>
+            </div>
+        </div>
+        @*/////*@
+        <div class="row">
+            <div class="col-3 pr-0 my-auto text-right">
+                <a class="text-purple" asp-action="Details" asp-route-star="4" asp-fragment="book-reviews">4 <i class="starIcFull"></i></a>
+            </div>
+            <div class="col-7 pl-1 pr-1 my-auto">
+                <div class="progress">
+                    <div class="progress-bar bg-purple" role="progressbar" style="width: @Model.PreviewReviews.FourPerc%" aria-valuenow="@Model.PreviewReviews.FourPerc" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-2 pl-1 my-auto">
+                <a class="text-purple" asp-action="Details" asp-route-star="4" asp-fragment="book-reviews">(@Model.PreviewReviews.FourStars)</a>
+            </div>
+        </div>
+        @*/////*@
+        <div class="row">
+            <div class="col-3 pr-0 my-auto text-right">
+                <a class="text-purple" asp-action="Details" asp-route-star="3" asp-fragment="book-reviews">3 <i class="starIcFull"></i></a>
+            </div>
+            <div class="col-7 pl-1 pr-1 my-auto">
+                <div class="progress">
+                    <div class="progress-bar bg-purple" role="progressbar" style="width: @Model.PreviewReviews.ThreePerc%" aria-valuenow="@Model.PreviewReviews.ThreePerc" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-2 pl-1 my-auto">
+                <a class="text-purple" asp-action="Details" asp-route-star="3" asp-fragment="book-reviews">(@Model.PreviewReviews.ThreeStars)</a>
+            </div>
+        </div>
+        @*/////*@
+        <div class="row">
+            <div class="col-3 pr-0 my-auto text-right">
+                <a class="text-purple" asp-action="Details" asp-route-star="2" asp-fragment="book-reviews">2 <i class="starIcFull"></i></a>
+            </div>
+            <div class="col-7 pl-1 pr-1 my-auto">
+                <div class="progress">
+                    <div class="progress-bar bg-purple" role="progressbar" style="width: @Model.PreviewReviews.TwoPerc%" aria-valuenow="@Model.PreviewReviews.TwoPerc" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-2 pl-1 my-auto">
+                <a class="text-purple" asp-action="Details" asp-route-star="2" asp-fragment="book-reviews">(@Model.PreviewReviews.TwoStars)</a>
+            </div>
+        </div>
+        @*/////*@
+        <div class="row">
+            <div class="col-3 pr-0 my-auto text-right">
+                <a class="text-purple" asp-action="Details" asp-route-star="1" asp-fragment="book-reviews">1 <i class="starIcFull"></i></a>
+            </div>
+            <div class="col-7 pl-1 pr-1 my-auto">
+                <div class="progress">
+                    <div class="progress-bar bg-purple" role="progressbar" style="width: @Model.PreviewReviews.OnePerc%" aria-valuenow="@Model.PreviewReviews.OnePerc" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-2 pl-1 my-auto">
+                <a class="text-purple" asp-action="Details" asp-route-star="1" asp-fragment="book-reviews">(@Model.PreviewReviews.OneStars)</a>
+            </div>
+        </div>
+    </div>
+    <div class="col reviewBtn mr-2 det-m-lg det-m-sm">
+        <button class="btn btn-outline-purple font-sp" data-toggle="modal" data-target="#reviewModal">НАПИШИ КОМЕНТАР</button>
+    </div>
+</div>
+<hr class="mt-4" />
+@if (Model.Count > 0)
+{
+    @foreach (var r in Model)
+    {
+        <div class="row">
+            <div class="col-3 my-auto text-center font-sp ">
+                <span>@r.Date г.</span>
+            </div>
+            <div class="col font-sp ">
+                <div>
+                    <div class="userRev float-left"></div>
+                    <div class="my-auto">&nbsp;@r.reviewName</div>
+                </div>
+                <div class="mt-1">
+                    <span>
+                        @for (int i = 0; i < r.stars; i++)
+                        {
+                            <i class="starIcFull"></i>
+                        }
+                        @for (int i = 0; i < (5 - r.stars); i++)
+                        {
+                            <i class="starIcEmpty"></i>
+                        }
+                    </span>
+                    <br />
+                    <span class="font-weight-bold">@r.reviewSubject</span>
+                </div>
+                <div class="mt-2">
+                    @r.reviewBody
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+}
+@*////////////////////////////*@
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-sp" id="exampleModalLabel">Добави коментар за: @Model.ProductDetails.Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="font-sp" asp-controller="Book" asp-action="AddReview">
+                <div class="modal-body" id="reviewForm">
+                    <div class="mb-3">
+                        <div class="form-group form-inline mb-0">
+                            <input type="hidden" name="captcha" id="captchaInput" />
+                            <input hidden name="bookId" value="@Model.ProductDetails.ProductId" />
+                            <label>Оцени книгата:<span class="text-danger">*</span>&nbsp;</label>
+                            <div class="rate-area">
+                                <input type="radio" id="5-star" name="stars" value="5">
+                                <label for="5-star">&nbsp;</label>
+                                <input type="radio" id="4-star" name="stars" value="4">
+                                <label for="4-star">&nbsp;</label>
+                                <input type="radio" id="3-star" name="stars" value="3">
+                                <label for="3-star">&nbsp;</label>
+                                <input type="radio" id="2-star" name="stars" value="2">
+                                <label for="2-star">&nbsp;</label>
+                                <input type="radio" id="1-star" name="stars" value="1"
+                                       required aria-required="true">
+                                <label for="1-star">&nbsp;</label>
+                            </div>
+                        </div>
+                        <span class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Име:<span class="text-danger">*</span></label>
+                        <input class="form-control" name="reviewName" required />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Заглавие:<span class="text-danger">*</span></label>
+                        <input class="form-control" name="reviewSubject" required />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Коментар:<span class="text-danger">*</span></label>
+                        <textarea class="form-control" style="width:100%; height:120px;" name="reviewBody" required></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" class="btn btn-outline-purple" id="addReview">Добави коментар</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+@if (Model.Count > 6)
+{
+    <div class="text-right mr-2 font-sp">
+        <a asp-action="Details"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-p="@(Model.PageIndex - 1)"
+           class="btn btn-outline-purple @prevDisabled">
+            <i class="fas fa-chevron-left"></i>&nbsp;ПРЕДИШНА
+        </a>
+        <a asp-action="Details"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-p="@(Model.PageIndex + 1)"
+           class="btn btn-outline-purple @nextDisabled">
+            СЛЕДВАЩА&nbsp;<i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+}

@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Твоята количка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="mb-3 font-av border-bottom" style="border-bottom-color: black !important;">@ViewData["Title"]</h4>
+
+@if (Model == null)
+{
+    <div class="jumbotron text-center font-sp"><h5>Твоята количка е празна</h5></div>
+}
+else
+{
+    <div class="row mr-auto font-sp">
+        <div class="col-md-9">
+            <table class="table text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-left font-weight-light" scope="col" width="50%">Продукти</th>
+                        <th scope="col" class="font-weight-light" width="15%">Ед. цена</th>
+                        <th scope="col" class="font-weight-light" width="20%">Брой</th>
+                        <th scope="col" class="font-weight-light" width="15%">Цена</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.ProductCartDetails)
+                    {
+                        <tr>
+                            <th class="text-left" scope="row">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a asp-controller="Book" asp-action="Details" asp-route-id="@p.ProductId" asp-route-title="@p.TitleLatin">
+                                            @if (p.ImageName == null)
+                                            {
+                                                <img src="~/images/NoImage.png" class="food4" alt="">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/@p.ImageName" class="food4" alt="">
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="col-md">
+                                        <ul class="l01 ml-2">
+                                            <li>
+                                                <a class="text-dark" asp-controller="Book" asp-action="Details" asp-route-id="@p.ProductId" asp-route-title="@p.TitleLatin"><span>@p.NameOfProduct</span></a>
+                                            </li>
+                                            <li class="text-secondary">
+                                                <span style="font-size: small;">Автор: @p.Author</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th>
+                            <td class="align-middle text-left">
+                                @if (p.Discount > 0)
+                                {
+
+                                    <div class="ml-sm-3">
+                                        <small class="align-baseline">
+                                            <s>@p.Price.ToString("f2")</s>
+                                        </small>
+                                    </div>
+                                    <div class="text-center text-danger font-weight-bold">
+                                        @p.PriceWithDisc.ToString("f2") лв.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-center text-danger font-weight-bold">
+                                        @p.PriceWithDisc.ToString("f2") лв.
+                                    </div>
+                                }
+                            </td>
+
+                            <td class="align-middle"><button name="btn_decrement" class="q01">-</button><input class="q00" type="number" id="quantity_of_product" name="@p.ProductId" value="@p.CountOfProduct" min="1" max="100" autocomplete="off"><button name="btn_increment" class="q01">+</button></td>
+                            <td class="align-middle font-weight-bold">@p.QuantityPriceWithDisc.ToString("f2") лв.</td>
+                            <td class="align-middle"><a name="btn_remove_from_cart" id="@p.ProductId" href=""><i class="fas fa-times text-secondary"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <div class="row">
+                    <div class="jumbotron pt-4 pb-4 text-center col">
+                        <p class="font-noto font-weight-bold" style="font-size: large">Общо <span id="totalPrice">@Model.TotalPrice.ToString("f2")</span> лв.</p>
+                        <hr />
+                        <a asp-controller="Checkout" asp-action="LastStep" asp- class="btn btn-outline-purple text-uppercase font-av">Към завършване</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="jumbotron pt-4 pb-4 text-center col">
+                        <p class="font-noto font-weight-bold" style="font-size: large">Общо <span id="totalPrice">@Model.TotalPrice.ToString("f2")</span> лв.</p>
+                        <hr />
+                        <a asp-controller="Checkout" asp-action="LastStep" asp- class="btn btn-outline-purple text-uppercase font-av">Към завършване</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="jumbotron pt-4 pb-4 text-center col">
+                        <p class="font-noto font-weight-bold text-danger">За поръчка без регистрация</p>
+                        <hr />
+                        <a asp-controller="Checkout" asp-action="LastStepNoReg" asp- class="mt-2 btn btn-outline-secondary text-uppercase font-av">Към завършване</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+}

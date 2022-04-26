@@ -1,0 +1,51 @@
+﻿@model AreaBg.Web.ViewModels.Contact.ContactFormViewModel
+@{
+    ViewData["Title"] = "Контакти";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="message"></div>
+<div class="row font-sp">
+    <div class="col-md-6">
+        <h4>Книжарница AREA.BG</h4>
+        <h6 class="mt-4">Адрес: гр.София</h6>
+        <h6>Телефон: 0877 018 634</h6>
+        <h6>Email: <a class="text-purple" href="mailto:info@area.bg">info@area.bg</a></h6>
+    </div>
+    <div class="col-md-6">
+        <h4>Форма за контакти</h4>
+        <h6>За всякакви въпроси, моля попълнете формата по-долу.</h6>
+        <form asp-controller="Home" asp-action="Contacts" autocomplete="off" method="post" class="mt-4" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message"></label>
+                <textarea rows="6" asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-outline-purple float-md-right">Изпрати</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

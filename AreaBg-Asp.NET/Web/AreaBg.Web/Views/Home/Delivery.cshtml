@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "НАЧИНИ НА ДОСТАВКА";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+    <h3 class="font-av">НАЧИНИ НА ДОСТАВКА</h3>
+</div>
+@if (Model != null)
+{
+    <p class="font-sp mt-4" style="display: inline-block; white-space: pre-line; text-align:justify">@Html.Raw(Model.data)</p>
+}

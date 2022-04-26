@@ -1,0 +1,73 @@
+﻿@page
+@model AreaBg.Web.Areas.Identity.Pages.Account.Manage.OrderDetailsModel
+@{
+    ViewData["Title"] = "Преглед на поръчка";
+    ViewData["ActivePage"] = ManageNavPages.OrderDetails;
+}
+
+<div class="font-sp det-m-lg det-m-sm">
+    <h3>@ViewData["Title"] &#x2116 @(Model.Order.Id)SA@(Model.Order.OrderDate.ToString("MMdd"))</h3>
+    <h6>Статус на поръчката: <span class="prpColor">@Model.Order.OrderStatus</span></h6>
+    <div class="mt-4" style="font-size:15px">
+        <b>Име:</b> @Model.Order.Name, <b>Град:</b> @Model.Order.City<br />
+        <b>Телефон:</b> @Model.Order.PhoneNumber, <b>Адрес:</b> @Model.Order.Address<br />
+        <b>Доставка до:</b> @Model.Order.DeliveryPlace.ToString()<br />
+        <b>Забележка: @Model.Order.Note</b>
+    </div>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th style="width: 10%" scope="col" class="text-center">Корица</th>
+                <th style="width: 46%" scope="col">Заглавие</th>
+                <th style="width: 20%" scope="col">Издател</th>
+                <th style="width: 8%" scope="col" class="text-center">Цена</th>
+                <th style="width: 8%" scope="col" class="text-center">Брой</th>
+                <th style="width: 8%" scope="col" class="text-center">Сума</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model.Order.OrderBooks)
+            {
+                <tr>
+                    <th scope="row"><img src="~/images/@b.ImageName" class="food5" alt=""></th>
+                    <td class="align-middle">@b.NameOfProduct</td>
+                    <td class="align-middle">@b.Publisher</td>
+                    <td class="align-middle text-center">
+                        @if (b.Discount > 0)
+                        {
+                            <div>
+                                <small><s>@b.Price.ToString("f2")</s></small>
+                            </div>
+                            <div class="text-danger">
+                                @b.PriceWithDisc.ToString("f2")
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-danger">
+                                @b.PriceWithDisc.ToString("f2")
+                            </div>
+                        }
+
+                    </td>
+                    <td class="align-middle text-center">@b.CountOfProduct</td>
+                    <td class="align-middle text-center">@b.QuantityPriceWithDisc.ToString("f2")</td>
+                </tr>
+            }
+            <tr>
+                <th colspan="5" scope="row">Обща сума:</th>
+                <td class="text-right">@Model.Order.TotalPriceWithoutDelivery</td>
+            </tr>
+            <tr>
+                <th colspan="5" scope="row">Цена за доставка:</th>
+                <td class="text-right">@Model.Order.DelieryPrice</td>
+            </tr>
+            <tr>
+                <th colspan="5" scope="row">Крайна сума:</th>
+                <td class="text-right font-weight-bold">@Model.Order.TotalPrice.ToString("f2")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

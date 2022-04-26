@@ -1,0 +1,45 @@
+﻿<div class="col-md mb-2 cart-hv cart-sm">
+    <!-- Card -->
+    <div class="card border-0 mt-3">
+        <!-- Card image -->
+        <div class="imgBox">
+            <a class="favIc fbcr" asp-controller="Favorite" asp-action="AddToFavorite" asp-route-id="1"></a>
+            <a asp-controller="Book" asp-action="Details" asp-route-id="1" asp-route-title="1">
+                <img src="~/images/NoImage.png" class="food0"
+                     alt="">
+            </a>
+        </div>
+        <!-- Card image -->
+        <!-- Card content -->
+        <div class="card-body text-left pt-2 px-2 ml-1">
+            <!-- Category & Title -->
+            <h6 class="card-title mt-2 mb-0 productBox-title">
+                <a class="text-dark" asp-controller="Book" asp-action="Details" asp-route-id="1" asp-route-title="ааа">
+                    <span class="title" title="">Замръзване</span>
+                </a>
+            </h6>
+            <div class="mb-1">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <i class="starIcEmpty-12px"></i>
+                }
+            </div>
+            <!-- Description -->
+            <p class="card-text" style="font-size:13px">
+                <span><a asp-controller="Search" asp-action="For" asp-route-searchBy="author" asp-route-keyword="1111" class="text-dark author" title="111">Иван Иванов</a></span>
+                <br />
+                <span class="text-dark">Издател:&nbsp;<a asp-controller="Search" asp-action="For" asp-route-searchBy="publisher" asp-route-keyword="1111" class="text-dark publisher" title="111">Обсидиан</a></span>
+            </p>
+            <!-- Card footer -->
+            <div class="font-spCom">
+                <span class="float-left mt-1"><small class="text-dark"><s>12.00</s></small></span><span class="font-weight-bold ml-1 text-dic-ind">-9%</span>
+                <br />
+                <span class="text-danger font-weight-bold text-left-custom" style="font-size: 18px">10.90 лв.</span>
+                <span class="float-right">
+                    <a href="" class="py-0 fbtn cartIc" data-toggle="modal" data-target="#myModal" data-id="1" name="btn-order-index" style="bottom: 15px; position: relative;"></a>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>

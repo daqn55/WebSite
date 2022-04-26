@@ -1,0 +1,170 @@
+﻿@{
+    ViewData["Title"] = "EditProduct";
+}
+
+<div>
+    <form asp-area="Admin" asp-controller="Home" asp-action="EditProduct" method="post" autocomplete="off" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="BookId" class="col-md-3 col-form-label">Номер:</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control" id="bookId" name="BookId" value="@Model.Book.BookId" readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="CategorySelectCreateProduct" class="col-md-3 col-form-label">Подкатегория</label>
+            <div class="col-md-6">
+                <select class="form-control" id="categorySelectCreateProduct" name="CategorySelectCreateProduct" required>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        foreach (var subCat in cat.SubCategoriesViewModel)
+                        {
+                            if (subCat.Title == Model.Book.SubCategory.Title)
+                            {
+                                <option value="@subCat.SubCategoryId" selected>@subCat.SubCategoryId: @subCat.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@subCat.SubCategoryId">@subCat.SubCategoryId: @subCat.Title</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductName" class="col-md-3 col-form-label">Име:</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="productName" name="ProductName" placeholder="Име на продукта..." value="@Model.Book.Title">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductAuthor" class="col-md-3 col-form-label">Автор:</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="productAuthor" name="ProductAuthor" placeholder="Автор..." value="@Model.Book.Author">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductPages" class="col-md-3 col-form-label">Страници:</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control" id="productPages" name="ProductPages" placeholder="Страници..." value="@Model.Book.Pages">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductFormat" class="col-md-3 col-form-label">Формат:</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="productFormat" name="ProductFormat" placeholder="Формат..." value="@Model.Book.Format">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductPublisher" class="col-md-3 col-form-label">Издател:</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="productPublisher" name="ProductPublisher" placeholder="Издател..." value="@Model.Book.Publisher">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductCover" class="col-md-3 col-form-label">Корица:</label>
+            <div class="col-md-6">
+                <select class="form-control" id="productCover" name="ProductCover">
+                    @if (Model.Book.Cover == 0)
+                    {
+                        <option value="SoftCover" selected>Мека подвързия</option>
+                        <option value="HardCover">Твърда подвързия</option>
+                    }
+                    else
+                    {
+                        <option value="SoftCover">Мека подвързия</option>
+                        <option value="HardCover" selected>Твърда подвързия</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductPrice" class="col-md-3 col-form-label">Цена:</label>
+            <div class="col-md-6">
+                <input type="number" step="0.01" class="form-control" id="productPrice" name="ProductPrice" placeholder="Цена..." value="@Model.Book.Price">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductDiscount" class="col-md-3 col-form-label">Отстъпка:</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control" id="productDiscount" name="ProductDiscount" placeholder="Отстъпка..." value="@Model.Book.Discount">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ImageNumber" class="col-md-3 col-form-label">Картинка: </label>
+            <div class="col-md-6 custom-file">
+                <input type="file" id="ImageNumber" name="ImageNumber">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductWeight" class="col-md-3 col-form-label">Тегло:</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control" id="productWeight" name="ProductWeight" value="@Model.Book.Weight" placeholder="Тегло...">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductToShow" class="col-md-3 col-form-label">Да се показва:</label>
+            <div class="col-md-6">
+                <select class="form-control" id="productToShow" name="ProductToShow">
+                    @if (Model.Book.ProductToShow == 0)
+                    {
+                        <option value="Yes" selected>Да</option>
+                        <option value="No">Не</option>
+                    }
+                    else
+                    {
+                        <option value="Yes">Да</option>
+                        <option value="No" selected>Не</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductDate" class="col-md-3 col-form-label">Дата:</label>
+            <div class="col-md-6">
+                <input type="date" class="form-control" id="productDate" name="ProductDate" placeholder="Дата..." value="@Model.Book.ReleaseDate.Date.ToString("yyyy-MM-dd")">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductISBN" class="col-md-3 col-form-label">ISBN:</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="productISBN" name="ProductISBN" placeholder="ISBN..." value="@Model.Book.ISBN">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductBuyForm" class="col-md-3 col-form-label">Купува се от:</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="productBuyForm" name="ProductBuyForm" placeholder="Купува се от..." value="@Model.Book.BuyFrom">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ProductDescription" class="col-md-3 col-form-label">Описание:</label>
+            <div class="col-md-6">
+                <textarea style="width:100%;" rows="4" id="productDescription" name="ProductDescription" placeholder="Описание...">@Model.Book.Description</textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="recommendedFromTeam" class="col-md-3 col-form-label">Пепоръчана от екипа?</label>
+            <div class="col-md-6 mt-2">
+                @if ((int)Model.Book.IsRecommendProduct == 1)
+                {
+                    <input type="checkbox" id="recommendedFromTeam" name="RecommendedFromTeam" checked>
+                }
+                else
+	            {
+                    <input type="checkbox" id="recommendedFromTeam" name="RecommendedFromTeam">
+	            }
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="recommendedProductPosition" class="col-md-3 col-form-label">Позиция на препоръчаната книга:</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control mt-2" id="recommendedProductPosition" name="RecommendedProductPosition" placeholder="Позиция в цифра от 0 започва..." value="@Model.Book.OrderNumber">
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Обновяване</button>
+        </div>
+    </form>
+</div>
+

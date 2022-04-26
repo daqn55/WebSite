@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="country" content="Bulgaria" />
+    <meta name="language" content="BG" />
+    <meta name="keywords" content="книги,книга,книжарница,литература,отстъпки,онлайн,българия,book,books,bookstore,literature,discount,bulgaria,online" />
+    @if (ViewBag.description == null)
+    {
+
+        <meta name="description" content="Посетете книжарницата Area.bg, изобилие от книги с отстъпки. Поръчайте Вашата книга сега! Категории: Детска литература, Наука, Художествена литература, Себеизрастване." />
+    }
+    else
+    {
+        <meta name="description" content="@ViewBag.description" />
+    }
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+            crossorigin="anonymous"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />*@
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    </environment>
+    <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/adminPanel.css" rel="stylesheet" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <environment exclude="Development">
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GFB7BW3T3"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-8GFB7BW3T3');
+        </script>
+    </environment>
+</head>
+<body class="">
+    <header>
+        @* ////////// *@
+        <div id="footer-sm" style="display: none;">
+            <div class="container-fluid">
+                <div class="row" style=" background-color: #f8f9fa">
+                    <div class="col-3 d-inline-flex">
+                        <button class="toggle-btn mt-0" type="button" data-toggle="collapse" data-target="#sidebar" id="btn-sidebar">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <partial name="_LoginPartialMobileSecond" />
+                    </div>
+                    <div class="ml-3 col-6 font-sp text-center">
+                        <a class="navbar-brand text-center" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/logoIcons/logoR-small1.png" alt="AreaBG" class="mt-2 img-responsive image-logo-sm" />
+                        </a>
+                    </div>
+                    <div class="mt-4 col-2">
+                        <div class="d-inline-flex float-right">
+                            <partial name="_LoginPartialMobile" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="collapse sidebar font-sp" id="sidebar">
+                @await Component.InvokeAsync("Navigation")
+            </div>
+            <div class="mt-4 searchDrp">
+                <div>
+                    <form asp-area="" asp-controller="Search" asp-action="Find" class="form-inline font-sp justify-content-center" method="get">
+                        <input id="" name="keyword" class="form-control srch col-10" type="search" placeholder="Търсене" aria-label="Search" maxlength="255" size="30" style="border-bottom-right-radius: 0; border-top-right-radius: 0;" autocomplete="off">
+                        <button class="btn btn-srch col-2 text-right" type="submit" title="btn-srch"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="">
+                        <img src="~/logoIcons/FreeDevlivery-Mobile.png" alt="AreaBG" class="mt-4 centerDis"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* ////////// *@
+        <div class="container" id="footer-lg">
+            <div class="row">
+                <div class="m-hh-sm m-hh-lg col-4 font-sp">
+                    <a class="ml-2 text-purple" asp-controller="Home" asp-action="Contacts">
+                        Контакти
+                    </a>
+                </div>
+                <div class="mt-2 col-4 text-center">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/logoIcons/logoR-small1.png" alt="AreaBG" class="mt-2 img-responsive image-logo" />
+                    </a>
+                </div>
+                <div class="m-ha-sm m-ha-lg col-4">
+                    <div class="d-inline-flex float-right">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 searchDrp">
+                <div>
+                    <form asp-area="" asp-controller="Search" asp-action="Find" class="form-inline font-sp justify-content-center" method="get">
+                        <input id="main_search" name="keyword" class="form-control srch col-11" type="search" placeholder="Търсене" aria-label="Search" maxlength="255" size="60" style="border-bottom-right-radius: 0; border-top-right-radius: 0;" autocomplete="off">
+                        <button class="btn btn-srch col-1 text-right" type="submit" title="btn-srch"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="searchDrp-content" id="searchBox">
+                    <partial name="~/Views/Search/_SearchDisplayPartial.cshtml" />
+                </div>
+            </div>
+            <img src="~/logoIcons/FreeDelivery-2.png" alt="AreaBG" class="mt-4 img-responsive centerDis"/>
+            <div class="container mt-2 px-0 ml-2">
+                <nav class="px-0 navbar navbar-expand-sm navbar-light bg-light font-sp" style="background-color: white !important">
+                    @await Component.InvokeAsync("Navigation")
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid mb-4 py-4 mt-0">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3 container">
+            @RenderBody()
+            <partial name="ModalProductDetailsView" />
+        </main>
+    </div>
+
+    <footer class="border-top footer">
+        <div class="bg-dark">
+            <div class="container">
+                <partial name="_FooterPartial" />
+            </div>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery-3.6.0.min.js"></script>
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+            </script>*@
+        <script src="~/lib/jquery/jquery-3.6.0.min.js"></script>
+        @*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+            </script>*@
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        let tempSuccess = '@(TempData["Success"])';
+        let tempMessage = '@(TempData["Message"])';
+        alertBoxShow(tempSuccess, tempMessage);
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,110 @@
+﻿@model AreaBg.Web.ViewModels.Products.ProductPartDetailsViewModel
+
+@if (Model != null)
+{
+    <div class="col-sm-6 col-md mb-2 cart-hv cart-sm">
+        <!-- Card -->
+        <div class="card border-0 mt-3">
+            <!-- Card image -->
+            <div class="imgBox">
+                <div class="">
+                    @if (Model.IsFavorite)
+                    {
+                        <a class="favIcTrue fbsl" asp-controller="Favorite" asp-action="DeleteFavorite" asp-route-id="@Model.ProductId"></a>
+                    }
+                    else
+                    {
+                        <a class="favIc fbcr" asp-controller="Favorite" asp-action="AddToFavorite" asp-route-id="@Model.ProductId"></a>
+                    }
+                    @if (Model.ProductToShow == "No")
+                    {
+                        <span class="out-of-stock out-of-stock-pos"></span>
+                    }
+                    <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.ProductId" asp-route-title="@Model.UrlTitle">
+                        @if (!String.IsNullOrEmpty(Model.ImageNameWithExtension))
+                        {
+                            <img src="~/images/@Model.ImageNameWithExtension" class="food0"
+                                 alt="">
+                        }
+                        else
+                        {
+                            <img src="~/images/NoImage.png" class="food0"
+                                 alt="">
+                        }
+                    </a>
+                </div>
+            </div>
+            <!-- Card image -->
+            <!-- Card content -->
+            <div class="card-body text-left margin-card-cont">
+                <!-- Category & Title -->
+                <span class="card-title mt-2 mb-0 productBox-title">
+                    <a class="text-dark" asp-controller="Book" asp-action="Details" asp-route-id="@Model.ProductId" asp-route-title="@Model.UrlTitle">
+                        <span class="title" title="@Model.Title">@Model.Title</span>
+                    </a>
+                </span>
+                <div class="mb-1">
+                    @for (int i = 0; i < Model.rating; i++)
+                    {
+                        <i class="starIcFull-12px"></i>
+                    }
+                    @for (int i = 0; i < (5 - Model.rating); i++)
+                    {
+                        <i class="starIcEmpty-12px"></i>
+                    }
+                </div>
+                <!-- Description -->
+                <p class="card-text" style="font-size:13px">
+                    <span><a asp-controller="Search" asp-action="For" asp-route-searchBy="author" asp-route-keyword="@Model.AuthorLatin" class="text-dark author" title="@Model.Author">@Model.Author</a></span>
+                    <br />
+                    <span class="text-dark"><span class="pub-desc">Издател:&nbsp;</span><a asp-controller="Search" asp-action="For" asp-route-searchBy="publisher" asp-route-keyword="@Model.PublisherLatin" class="text-dark publisher" title="@Model.Publisher">@Model.Publisher</a></span>
+                </p>
+                <!-- Card footer -->
+                <div class="font-spCom">
+                    @if (Model.Discount > 0)
+                    {
+                        <span class="float-left mt-1"><small class="text-dark"><s>@Model.Price</s></small></span><span class="font-weight-bold ml-1 text-dic-ind">-@Model.Discount%</span>
+                        <br />
+                        <span class="text-danger font-weight-bold text-left-custom priceFont">@((Model.Price - ((Model.Price * Model.Discount) / 100)).ToString("f2"))лв.</span>
+
+                        @if (Model.ProductToShow == "Yes")
+                        {
+                            @if (Model.Date.Date <= DateTime.Today.Date)
+                            {
+                                <span class="float-right">
+                                    <a href="" class="py-0 fbtn cartIc" data-toggle="modal" data-target="#myModal" data-id="@Model.ProductId" name="btn-order-index" style="bottom: 15px; position: relative;"></a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="float-right">
+                                    <span class="">@Model.Date.ToString("dd-MM-yy")г.</span>
+                                </span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <span class="float-left font-weight-bold text-danger priceFont mt-2">@(Model.Price)лв.</span>
+                        @if (Model.Date.Date <= DateTime.Today.Date)
+                        {
+                            <span class="float-right mt-3">
+                                <a href="" class="py-0 fbtn cartIc" data-toggle="modal" data-target="#myModal" data-id="@Model.ProductId" name="btn-order-index"></a>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="float-right mt-2">
+                                <span class="">@Model.Date.ToString("dd-MM-yyyy")</span>
+                            </span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-md mb-2"></div>
+}

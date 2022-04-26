@@ -1,0 +1,15 @@
+﻿@model List<AreaBg.Web.ViewModels.Products.ProductPartDetailsViewModel>
+@{
+    Layout = null;
+    Context.Response.ContentType = "text/xhtml";
+}
+<?xml version="1.0" encoding="utf-8" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    @foreach (var book in Model)
+    {
+        <url>
+            <loc>https://area.bg/product/@book.ProductId/@book.UrlTitle</loc>
+            <lastmod>@book.Date.ToString("yyyy-MM-dd")</lastmod>
+        </url>
+    }
+</urlset>

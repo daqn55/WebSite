@@ -1,0 +1,22 @@
+﻿<div class="ml-nav" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-2">
+        @foreach (var cat in Model.Categories)
+        {
+            <li class="nav-item dropdown mob-list" style="font-size:17px;">
+                <a class="nav-link pl-2 pr-3 text-purpleHv" href="#" id="navbarDropdown" role="button" name="navDrop">
+                    @cat.Title
+                </a>
+                @if (cat.SubCategoriesViewModel.Count > 0)
+                {
+                    <div class="dropdown-menu nav-pos">
+                        @foreach (var subCat in cat.SubCategoriesViewModel)
+                        {
+                            <a class="dropdown-item font-sp" asp-controller="Search" asp-action="By" asp-route-searchBy="subcat" asp-route-id="@subCat.SubCategoryId" asp-route-keyword="@subCat.TitleLatin">@subCat.Title</a>
+                        }
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+</div>
+

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "ЗА НАС";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-md-2 border-bottom" style="border-bottom-color: black !important;">
+    <h3 class="font-av">ЗА НАС</h3>
+</div>
+@if (Model != null)
+{
+<div class="container">
+    <p class="font-sp mt-4" style="display: inline-block; white-space: pre-line; text-align:justify">@Html.Raw(Model.data)</p>
+</div>
+}

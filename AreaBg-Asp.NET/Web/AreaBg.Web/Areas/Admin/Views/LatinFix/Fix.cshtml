@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Оправяне на линкове";
+}
+
+<div>
+    <form asp-controller="LatinFix" asp-action="FixLatin" method="get">
+        <input name="count" value="0" />
+        <button class="btn btn-primary" type="submit">Започни</button>
+    </form>
+    <form class="mt-2" asp-controller="LatinFix" asp-action="CopyDiscount" method="post">
+        <label>копиране на отстъпки</label>
+        <button class="btn btn-primary" type="submit">Започни</button>
+    </form>
+    <form class="mt-2" asp-controller="LatinFix" asp-action="RemoveDiscounts" method="post">
+        <label>Нулиране на отстъпки</label>
+        <button class="btn btn-primary" type="submit">Започни</button>
+    </form>
+    <form class="mt-2" asp-controller="LatinFix" asp-action="PutDiscountsBack" method="post">
+        <label>Връщане на отстъпки</label>
+        <button class="btn btn-primary" type="submit">Започни</button>
+    </form>
+</div>

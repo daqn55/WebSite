@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="showElement no-gutters" id="categoryDiv" name="menuItem">
+    <form asp-controller="Home" asp-action="MakeCategory" method="post" autocomplete="off">
+        <label for="categoryName" class="col-form-label font-weight-bold">Създаване на категория</label>
+        <div class="form-group">
+            <div>
+                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Име на категорията...">
+            </div>
+            <button id="categorySubmitButton" type="submit" class="btn btn-primary mt-3">Създай</button>
+        </div>
+    </form>
+    <form asp-controller="Home" asp-action="MakeSubCategory" method="post" autocomplete="off">
+        <div>
+            <label for="subCategoryName" class="col-form-label font-weight-bold">Създаване на подкатегория</label>
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="text" class="form-control" id="subCategory" name="subCategoryName" placeholder="Име на подкатегорията...">
+                </div>
+                <label class="col-form-label col-md-2">В категория</label>
+                <div class="col-md-5">
+                    <select class="form-control" id="categorySelect" name="categoryNameWithId" required>
+                        <option value="" selected disabled>Избери категория...</option>
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <option id="@cat.CategoryId">@cat.CategoryId: @cat.Title</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Създай</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

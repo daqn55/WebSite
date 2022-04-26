@@ -1,0 +1,59 @@
+﻿@model AreaBg.Web.Areas.Admin.ViewModels.Orders.PrintOrdersViewModel
+
+@{
+    Layout = "/Areas/Admin/Views/_EmptyLayout.cshtml";
+    ViewData["Title"] = "Разпечатка на поръчки";
+}
+
+@foreach (var orders in Model.OrderDetails)
+{
+    <div class="det-m-lg det-m-sm">
+        <div class="mt-4 ml-1" style="font-size:15px">
+            <b>Дата:</b> @orders.OrderDate.ToString("yyyy-MM-dd"), <b>Име:</b> @orders.Name, <b>Град:</b> @orders.City<br />
+            <b>Адрес:</b> @orders.Address<br />
+            <b>Телефон:</b> @orders.PhoneNumber <b>Email:</b> @orders.Email<br />
+            <b>Доставка до:</b> @orders.DeliveryPlace.ToString(), <b>Забележка: @orders.Note</b>
+        </div>
+        <table class="table table-bordered mt-2">
+            <thead>
+                <tr>
+                    <th class="py-1" style="width: 46%" scope="col">Заглавие</th>
+                    <th class="py-1" style="width: 20%" scope="col">Издател</th>
+                    <th class="py-1 text-center" style="width: 8%" scope="col">Цена</th>
+                    <th class="py-1 text-center" style="width: 8%" scope="col">Брой</th>
+                    <th class="py-1 text-center" style="width: 8%" scope="col">Сума</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in orders.OrderBooks)
+                {
+                    <tr>
+                        <td scope="row" class="align-middle py-0">@b.NameOfProduct: @b.Author </td>
+                        <td class="align-middle py-0">@b.Publisher</td>
+                        <td class="align-middle text-center py-0">@b.Price.ToString("f2")</td>
+                        <td class="align-middle text-center py-0">@b.CountOfProduct</td>
+                        <td class="align-middle text-right py-0">@b.QuantityPriceWithDisc.ToString("f2")</td>
+                    </tr>
+                }
+                <tr>
+                    <th class="py-0" colspan="4" scope="row">Обща сума:</th>
+                    <td class="text-right py-0">@orders.TotalPriceWithoutDelivery</td>
+                </tr>
+                <tr>
+                    <th class="py-0" colspan="4" scope="row">Цена за доставка:</th>
+                    <td class="text-right py-0">@orders.DelieryPrice</td>
+                </tr>
+                <tr>
+                    <th class="py-0" colspan="4" scope="row">Крайна сума:</th>
+                    <td class="text-right font-weight-bold py-0">@orders.TotalPrice.ToString("f2")</td>
+                </tr>
+                <tr>
+                    <td class="text-center py-0" colspan="5"><b>area.bg - поръчка №: @orders.Id</b><b>SA</b><b>@orders.OrderDate.ToString("MMdd")</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+}
+<p>Сума без доставки: <strong>@Model.OrdersTotalPrice.</strong> Доставки: <strong>@Model.OrderDeliveryPrices</strong></p>
+<p>ОБЩО: <strong>@(Model.OrderDeliveryPrices + Model.OrdersTotalPrice).</strong> Брой на поръчките: <strong>@Model.OrdersCount</strong></p>

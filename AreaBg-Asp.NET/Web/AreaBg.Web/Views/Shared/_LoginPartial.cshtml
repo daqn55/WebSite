@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using AreaBg.Data.Models
+@inject SignInManager<MyIdentityUser> SignInManager
+@inject UserManager<MyIdentityUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        <a asp-controller="Checkout" asp-action="Cart" class="cartIc">
+            <span id="cartNum" name="cartNum" class="n0c"></span>
+        </a>
+    </div>
+    <div class="ml-2 mr-2">
+        <a asp-area="Identity" asp-page="/Account/Manage/FavoriteProducts" class="favIc-up"></a>
+    </div>
+    <div class="btn-group font-sp">
+        <div class="user-dropdown">
+            <a href="#" onclick="return false" class="userIc"></a>
+            <div class="user-dropdown-menu dropdown-menu dropdown-menu-right mt-2">
+                <a class="nav-link userMenu" asp-area="Identity" asp-page="/Account/Manage/Index">Моят профил</a>
+                <a class="nav-link userMenu" asp-area="Identity" asp-page="/Account/Manage/MyOrders">Моите поръчки</a>
+                <a class="nav-link userMenu" asp-area="Identity" asp-page="/Account/Manage/MyAddresses">Моите адреси</a>
+                <div class="dropdown-divider"></div>
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link userMenu btn btn-link border-0" style="background: white !important;">Изход</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-controller="Checkout" asp-action="Cart" class="cartIc">
+            <span id="cartNum" name="cartNum" class="n0c"></span>
+        </a>
+    </div>
+    <div class="btn-group font-sp">
+        <div class="user-dropdown">
+            <a href="#" class="ml-2 userIc" onclick="return false"></a>
+            <div class="user-dropdown-menu dropdown-menu dropdown-menu-right mt-2">
+                <a class="nav-link userMenu" asp-area="Identity" asp-page="/Account/Login">Вход</a>
+                <a class="nav-link userMenu" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+            </div>
+        </div>
+        
+    </div>
+}
+
+

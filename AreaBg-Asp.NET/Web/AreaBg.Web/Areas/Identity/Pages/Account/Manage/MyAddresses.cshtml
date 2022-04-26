@@ -1,0 +1,60 @@
+﻿@page
+@model AreaBg.Web.Areas.Identity.Pages.Account.Manage.MyAddressesModel
+@{
+    ViewData["Title"] = "Моите адреси";
+    ViewData["ActivePage"] = ManageNavPages.MyAddresses;
+}
+
+<div class="font-sp det-m-lg det-m-sm">
+    <h4>@ViewData["Title"]</h4>
+    <a asp-page="./AddAddress" class="btn btn-outline-purple mt-2"><i class="fas fa-plus"></i> Добави нов адрес</a>
+
+    <div class="jumbotron mt-4">
+        @if (Model.MyAddresses.Count <= 0)
+        {
+            <h5 class="text-center">Нямаш добавени адреси за доставка</h5>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var i in Model.MyAddresses)
+                {
+                    <div class="col-md-6 mb-4 mt-0">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h5 class="card-title">Име: @i.Name</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Тел: @i.Phone</h6>
+                                @if (i.DeliveryPlace == Data.Models.enums.DeliveryPlace.OfficeEkont)
+                                {
+                                    <h6 class="card-text text-muted">Място на доставка: Офис на Еконт</h6>
+                                }
+                                else if (i.DeliveryPlace == Data.Models.enums.DeliveryPlace.OfficeSpeedy)
+                                {
+                                    <h6 class="card-text text-muted">Място на доставка: До адрес със Спиди</h6>
+                                }
+                                else if (i.DeliveryPlace == Data.Models.enums.DeliveryPlace.Ekont)
+                                {
+                                    <h6 class="card-text text-muted">Място на доставка: До адрес с Еконт</h6>
+                                }
+                                else if (i.DeliveryPlace == Data.Models.enums.DeliveryPlace.Speedy)
+                                {
+                                    <h6 class="card-text text-muted">Място на доставка: До адрес със Спиди</h6>
+                                }
+                                <h6 class="card-text text-muted">Адрес: @i.Address</h6>
+                                <h6 class="card-text text-muted">Град: @i.City</h6>
+                                <h6 class="card-text text-muted">България</h6>
+                                @if (!string.IsNullOrEmpty(i.Note))
+                                {
+                                    <h6 class="card-text text-muted">Забележка: @i.Note</h6>
+                                }
+                                <hr />
+                                <a asp-page="./EditAddress" asp-route-id="@i.Id" class="card-link text-purple">Редактиране</a>
+                                <a asp-page-handler="DeleteAddress" asp-route-id="@i.Id" class="card-link float-right text-purple">Изтриване</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

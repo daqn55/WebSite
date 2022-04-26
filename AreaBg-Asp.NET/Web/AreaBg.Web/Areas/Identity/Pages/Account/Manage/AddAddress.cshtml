@@ -1,0 +1,69 @@
+﻿@page
+@model AreaBg.Web.Areas.Identity.Pages.Account.Manage.AddAddressModel
+@{
+    ViewData["Title"] = "Добави адрес";
+    ViewData["ActivePage"] = ManageNavPages.AddAddress;
+}
+
+
+<div class="col-md-6 font-sp det-m-lg det-m-sm">
+    <h4>@ViewData["Title"]</h4>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Input.Name"></label>
+            <input asp-for="Input.Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.PhoneNumber"></label>
+            <input asp-for="Input.PhoneNumber" class="form-control" />
+        </div>
+        <div class="form-group form-check">
+            <input type="radio" asp-for="Input.ToWhere" class="form-check-input" value="toEkont">
+            <label class="form-check-label" for="toEkont">До адрес с Еконт</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="radio" asp-for="Input.ToWhere" class="form-check-input" value="toSpeedy">
+            <label class="form-check-label" for="toSpeedy">До адрес със Спиди</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="radio" asp-for="Input.ToWhere" class="form-check-input" value="toOfficeEkont">
+            <label class="form-check-label" for="toOfficeEkont">Офис на Еконт</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="radio" asp-for="Input.ToWhere" class="form-check-input" value="toOfficeSpeedy">
+            <label class="form-check-label" for="toOfficeSpeedy">Офис на Спиди</label>
+        </div>
+        <div id="city" style="display:none">
+            <div class="form-group">
+                <label asp-for="Input.City"></label>
+                <input asp-for="Input.City" class="form-control" />
+            </div>
+        </div>
+        <div id="homeEkont" style="display:none">
+            <div class="form-group">
+                <label asp-for="Input.HomeEkont"></label>
+                <input asp-for="Input.HomeEkont" class="form-control" />
+            </div>
+        </div>
+        <div id="homeSpeedy" style="display:none">
+            <div class="form-group">
+                <label asp-for="Input.HomeSpeedy"></label>
+                <input asp-for="Input.HomeSpeedy" class="form-control" />
+            </div>
+        </div>
+        <div id="ekont" style="display:none">
+            <div class="form-group">
+                <label asp-for="Input.AddressEkont"></label>
+                <input asp-for="Input.AddressEkont" class="form-control" />
+            </div>
+        </div>
+        <div id="speedy" style="display:none">
+            <div class="form-group">
+                <label asp-for="Input.AddressSpeedy"></label>
+                <input asp-for="Input.AddressSpeedy" class="form-control" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-purple-btn">Запази</button>
+    </form>
+    
+</div>
